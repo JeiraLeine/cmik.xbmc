@@ -565,7 +565,7 @@ def getWebsiteSectionContent(sectionId, page=1, itemsPerPage=8):
     
     html = callServiceApi('/home', base_url = websiteUrl)
     sections = common.parseDOM(html, "div", attrs = { 'class' : 'main-container-xl main-container-xl-mobile' })
-    section = sections[int(sectionId)-1]
+    section = sections[int(sectionId)-2]
     links = common.parseDOM(section, "a", attrs = { 'data-category' : 'CTA_Sections' }, ret = 'href')
     items = common.parseDOM(section, "a", attrs = { 'data-category' : 'CTA_Sections' })
     
@@ -591,7 +591,7 @@ def extractWebsiteSectionShowData(url, html):
     showId = re.compile('/([0-9]+)/', re.IGNORECASE).search(url).group(1)
     filter = 'port-cover-thumb-title' if 'port-cover-thumb-title' in html else 'show-cover-thumb-title-mobile'
     showName = common.replaceHTMLCodes(common.parseDOM(html, "h3", attrs = { 'class' : filter })[0])
-    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover' }, ret = 'data-src')[0]
+    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover lazy' }, ret = 'data-src')[0]
     
     return {
         'type' : 'show',
@@ -609,7 +609,7 @@ def extractWebsiteSectionShowData(url, html):
 def extractWebsiteSectionEpisodeData(url, html):
     episodeId = re.compile('/([0-9]+)/', re.IGNORECASE).search(url).group(1)
     showName = common.replaceHTMLCodes(common.parseDOM(html, "h3", attrs = { 'class' : 'show-cover-thumb-title-mobile' })[0])
-    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover' }, ret = 'data-src')[0]
+    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover lazy' }, ret = 'data-src')[0]
     dateAired = common.parseDOM(html, "h4", attrs = { 'class' : 'show-cover-thumb-aired-mobile' })
     
     year = ''

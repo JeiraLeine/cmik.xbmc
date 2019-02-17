@@ -591,8 +591,8 @@ def extractWebsiteSectionShowData(url, html):
     showId = re.compile('/([0-9]+)/', re.IGNORECASE).search(url).group(1)
     filter = 'port-cover-thumb-title' if 'port-cover-thumb-title' in html else 'show-cover-thumb-title-mobile'
     showName = common.replaceHTMLCodes(common.parseDOM(html, "h3", attrs = { 'class' : filter })[0])
-    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover lazy' }, ret = 'data-src')[0]
-    
+    lazy_filter = 'show-cover lazy' if 'show-cover lazy' in html else 'show-cover'
+    image = common.parseDOM(html, "div", attrs = { 'class' : lazy_filter }, ret = 'data-src')[0]    
     return {
         'type' : 'show',
         'id' : int(showId),
@@ -609,7 +609,8 @@ def extractWebsiteSectionShowData(url, html):
 def extractWebsiteSectionEpisodeData(url, html):
     episodeId = re.compile('/([0-9]+)/', re.IGNORECASE).search(url).group(1)
     showName = common.replaceHTMLCodes(common.parseDOM(html, "h3", attrs = { 'class' : 'show-cover-thumb-title-mobile' })[0])
-    image = common.parseDOM(html, "div", attrs = { 'class' : 'show-cover lazy' }, ret = 'data-src')[0]
+    lazy_filter = 'show-cover lazy' if 'show-cover lazy' in html else 'show-cover'
+    image = common.parseDOM(html, "div", attrs = { 'class' : lazy_filter }, ret = 'data-src')[0]
     dateAired = common.parseDOM(html, "h4", attrs = { 'class' : 'show-cover-thumb-aired-mobile' })
     
     year = ''
